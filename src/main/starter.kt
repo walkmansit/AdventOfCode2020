@@ -3,6 +3,7 @@ package main
 import main.days.Day1
 import main.days.Day2
 import main.days.Day3
+import main.days.Day4
 
 fun main(args : Array<String>) {
     //println(Day1.getResult())
@@ -11,7 +12,10 @@ fun main(args : Array<String>) {
     //println(Day2.getResult())
     //println(Day2.getResultAdvanced())
 
-    println(Day3.getResult())
-    println(Day3.getResultAdvanced())
+    //println(Day3.getResult())
+    //println(Day3.getResultAdvanced())
+
+    println(Day4.getResult())
+    println(Day4.getResultAdvanced())
 }
 
