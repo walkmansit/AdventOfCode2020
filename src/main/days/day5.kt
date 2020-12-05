@@ -1,6 +1,8 @@
 package main.days
 
 import java.lang.IllegalArgumentException
+import java.math.*
+import kotlin.math.pow
 
 
 object Day5 {
@@ -984,6 +986,16 @@ object Day5 {
                         (start + endInclusive+1)/2..endInclusive
                 }
 
+                fun numberFromString2(line:String) : Int {
+                    var sum = 0.0
+                    for ( (i,v) in line.withIndex() ){
+                        if ( v == 'B' || v == 'R' ){
+                            sum += 2.0.pow(line.length - i) / 2
+                        }
+                    }
+                    return sum.toInt()
+                }
+
                 fun numberFromString(line:String,diapason:ClosedRange<Int>) : Int {
 
                     var range = diapason.start..diapason.endInclusive
@@ -997,8 +1009,10 @@ object Day5 {
                     else throw IllegalArgumentException()
                 }
 
-                val column = numberFromString(code.substring(7,10),0..7)
-                val row = numberFromString(code.substring(0,7),0..127)
+                //val column = numberFromString(code.substring(7,10),0..7)
+                val column = numberFromString2(code.substring(7,10))
+                //val row = numberFromString(code.substring(0,7),0..127)
+                val row = numberFromString2(code.substring(0,7))
 
                 return Seat(row,column)
 
