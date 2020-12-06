@@ -1,9 +1,5 @@
 package main.days
 
-import java.lang.IllegalArgumentException
-import java.math.*
-import kotlin.math.pow
-
 
 object Day5 {
 
@@ -971,6 +967,8 @@ object Day5 {
     """.trimIndent()
 
 
+
+
     private class Seat private constructor(row:Int, column: Int){
 
         val id = row * 8 + column
@@ -978,41 +976,18 @@ object Day5 {
         companion object {
             fun fromCode(code:String) : Seat {
 
-                fun ClosedRange<Int>.divideByChar(symbol:Char) : IntRange {
-
-                    return if ( symbol == 'F' || symbol == 'L' )
-                        start..(start + endInclusive)/2
-                    else
-                        (start + endInclusive+1)/2..endInclusive
-                }
-
-                fun numberFromString2(line:String) : Int {
-                    var sum = 0.0
-                    for ( (i,v) in line.withIndex() ){
-                        if ( v == 'B' || v == 'R' ){
-                            sum += 2.0.pow(line.length - i) / 2
-                        }
+                fun String.asBinarySequence() = sequence {
+                    for (ch in asSequence()) {
+                        yield(if (ch == 'F' || ch == 'L') 0 else 1)
                     }
-                    return sum.toInt()
                 }
 
-                fun numberFromString(line:String,diapason:ClosedRange<Int>) : Int {
-
-                    var range = diapason.start..diapason.endInclusive
-
-                    for (ch in line){
-                        range = range.divideByChar(ch)
-                    }
-
-                    if (range.first == range.last)
-                         return range.first
-                    else throw IllegalArgumentException()
+                fun numberFromString(line:String) : Int {
+                    return line.asBinarySequence().reduce { acc, i -> acc * 2 + i  }
                 }
 
-                //val column = numberFromString(code.substring(7,10),0..7)
-                val column = numberFromString2(code.substring(7,10))
-                //val row = numberFromString(code.substring(0,7),0..127)
-                val row = numberFromString2(code.substring(0,7))
+                val column = numberFromString(code.substring(7,10))
+                val row = numberFromString(code.substring(0,7))
 
                 return Seat(row,column)
 
