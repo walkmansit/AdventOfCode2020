@@ -1,18 +1,6 @@
 package main
 
-import main.days.Day1
-import main.days.Day2
-import main.days.Day3
-import main.days.Day4
-import main.days.Day5
-import main.days.Day6
-import main.days.Day7
-import main.days.Day8
-import main.days.Day9
-import main.days.Day10
-import main.days.Day11
-import main.days.Day12
-import main.days.Day13
+import main.days.*
 
 
 fun main(args : Array<String>) {
@@ -52,7 +40,11 @@ fun main(args : Array<String>) {
     //println(Day12.getResult())
     //println(Day12.getResultAdvanced())
 
-    println(Day13.getResult())
-    println(Day13.getResultAdvanced())
+    //println(Day13.getResult())
+    //println(Day13.getResultAdvanced())
+
+
+    println(Day14.getResult())
+    println(Day14.getResultAdvanced())
 }
 
