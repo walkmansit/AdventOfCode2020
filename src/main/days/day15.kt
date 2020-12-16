@@ -3,7 +3,7 @@ package main.days
 object Day15 {
 
     private val input = arrayOf(0,13,1,8,6,15)
-    
+
     class NumberGame(private val initNums: Array<Int>){
 
         fun play(targetTurn:Int) : Int {
