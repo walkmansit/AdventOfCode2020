@@ -49,7 +49,14 @@ fun main(args : Array<String>) {
     //println(Day15.getResult())
     //println(Day15.getResultAdvanced())
 
-    println(Day16.getResult())
-    println(Day16.getResultAdvanced())
+    //println(Day16.getResult())
+    //println(Day16.getResultAdvanced())
+
+    //val t = System.currentTimeMillis()
+    //println(System.currentTimeMillis() - t)
+
+    println(Day17.getResult())
+    println(Day17.getResultAdvanced())
+
 }
 
