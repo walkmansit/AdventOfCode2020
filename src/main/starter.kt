@@ -55,8 +55,11 @@ fun main(args : Array<String>) {
     //val t = System.currentTimeMillis()
     //println(System.currentTimeMillis() - t)
 
-    println(Day17.getResult())
-    println(Day17.getResultAdvanced())
+    //println(Day17.getResult())
+    //println(Day17.getResultAdvanced())
+
+    println(Day18.getResult())
+    println(Day18.getResultAdvanced())
 
 }
 
