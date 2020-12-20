@@ -637,40 +637,46 @@ object Day19 {
             }
         }
 
-        fun isValidComponent(component: Component, idx: Int, str:String ) : Int {
+        fun isValidComponent(component: Component, idx: Int, str:String ) : List<Int> {
 
-            fun validateByMult(idx: Int, str:String, list : List<Int> ) : Int {
-                var currentIdx = idx
+            fun validateByMult(idx: Int, str:String, list : List<Int> ) : List<Int> {
+                var currentIdxList = listOf(idx)
                 for (item in list){
-                    var i = isValidComponent(components[item],currentIdx,str)
-                    if (i != currentIdx) //valid
-                        currentIdx = i
-                    else return idx
+
+                    var i = currentIdxList.flatMap { isValidComponent(components[item],it,str) }
+                    if (i.isNotEmpty()) //valid
+                        currentIdxList = i
+                    else return listOf()
                 }
-                return currentIdx
+                return currentIdxList
             }
+
+
 
             if (component is Terminal){
                 if (idx >= str.length)
-                    return idx
-                return if (str[idx] == component.value) idx+1 else idx
+                    return listOf()
+
+                return if (str[idx] == component.value) listOf(idx+1) else listOf()
             }
             else{
                 val compRef = component as Reference
 
+                /*val result = mutableListOf<Int>()
+
                 for (list in compRef.pairs){
-                    val i = validateByMult(idx,str,list)
-                    if (i != idx) //valid
-                        return i
+                    result.addAll(validateByMult(idx,str,list))
                 }
-                return idx
+                return result.toList()*/
+
+                return compRef.pairs.flatMap { validateByMult(idx,str,it) }
             }
         }
 
         val component = getComponent(0)
 
         val pairs = strings.asSequence().map { isValidComponent(components[0],0,it) to it.length }
-        return pairs.count { it.first == it.second }
+        return pairs.count { it.first.contains(it.second) }
     }
 
     fun getResult() : Int {
