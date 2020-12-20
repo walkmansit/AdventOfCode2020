@@ -637,42 +637,40 @@ object Day19 {
             }
         }
 
-        fun isValidComponent(component: Component, idx: Int, str:String ) : Pair<Boolean,Int> {
+        fun isValidComponent(component: Component, idx: Int, str:String ) : Int {
 
-            fun validateByMult(component: Component, idx: Int, str:String, list : List<Int> ) : Pair<Boolean,Int> {
+            fun validateByMult(idx: Int, str:String, list : List<Int> ) : Int {
                 var currentIdx = idx
                 for (item in list){
-                    var (v,i) = isValidComponent(components[item],currentIdx,str)
-                    if (v)
+                    var i = isValidComponent(components[item],currentIdx,str)
+                    if (i != currentIdx) //valid
                         currentIdx = i
-                    else
-                    return false to currentIdx
+                    else return idx
                 }
-                return (if (component.id!=0) true else (currentIdx == str.length)) to currentIdx
+                return currentIdx
             }
 
             if (component is Terminal){
                 if (idx >= str.length)
-                    return false to idx
-
-                return (str[idx] == component.value) to idx + 1
+                    return idx
+                return if (str[idx] == component.value) idx+1 else idx
             }
             else{
                 val compRef = component as Reference
 
                 for (list in compRef.pairs){
-                    val (v,i) = validateByMult(component,idx,str,list)
-                    if (v)
-                        return true to i
+                    val i = validateByMult(idx,str,list)
+                    if (i != idx) //valid
+                        return i
                 }
-
-                return false to idx
+                return idx
             }
         }
 
         val component = getComponent(0)
 
-        return strings.asSequence().map { isValidComponent(components[0],0,it).first }.filter { it }.count()
+        val pairs = strings.asSequence().map { isValidComponent(components[0],0,it) to it.length }
+        return pairs.count { it.first == it.second }
     }
 
     fun getResult() : Int {
