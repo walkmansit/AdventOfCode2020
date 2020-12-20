@@ -576,12 +576,12 @@ object Day19 {
         override fun isTerminal() = true
     }
 
-    class Reference(val pairs:List<Pair<Component,Component?>>, override val id: Int) : Component {
+    class Reference(val pairs:List<List<Int>>, override val id: Int) : Component {
         override fun isTerminal() = false
     }
 
-    fun getResult() : Int {
 
+    private fun calc(replace : Boolean) : Int {
         val parts = input.split("\n\n")
         val rules = parts[0].split("\n").toTypedArray()
 
@@ -589,72 +589,98 @@ object Day19 {
 
         fun mapToPair(rule : String) : Pair<Int,String> {
             val parts = rule.split(": ")
-            return parts[0].toInt() to parts[1]
+            var temp = parts[1]
+
+            if (replace) {
+                if (rule == "8: 42") {
+                    temp = "42 | 42 8"
+                }
+
+                if (rule == "11: 42 31") {
+                    temp = "42 31 | 42 11 31"
+                }
+            }
+
+            return parts[0].toInt() to temp
         }
 
         val sortedArray = rules.map { mapToPair(it) }.sortedBy { it.first }.map { it.second }.toTypedArray()
 
-        fun getComponent(idx : Int) : Component {
+        val components = Array<Component>(rules.size){ Terminal('c',-1) }
+
+        fun getComponent(idx : Int, set : MutableSet<Int> = mutableSetOf()) : Int {
+            if (set.contains(idx))
+                return idx
 
             val strRule = sortedArray[idx]
 
             if (strRule.length == 3 && strRule[0] == '"') {
-                return Terminal(strRule[1],idx)
+                components[idx] = Terminal(strRule[1],idx)
+                return idx
             }
             else {
                 val parts = strRule.split(" | ")
 
-                val list: MutableList<Pair<Component, Component?>> = mutableListOf()
+                val list: MutableList<List<Int>> = mutableListOf()
 
                 for (part in parts) {
                     val terminals = part.split(" ")
-                    //if (terminals.size > 2) println(" > 2 terminals")
-                    val first = getComponent(terminals[0].toInt())
-                    val second = if (terminals.size == 1) null else getComponent(terminals[1].toInt())
-                    list.add(first to second)
+                    set.add(idx)
+
+                    val termIdxs = terminals.asSequence().map { getComponent(it.toInt(),set) }.toList()
+
+                    set.remove(idx)
+                    list.add(termIdxs)
                 }
-                return Reference(list.toList(),idx)
+                components[idx] = Reference(list.toList(),idx)
+                return idx
+            }
+        }
+
+        fun isValidComponent(component: Component, idx: Int, str:String ) : Pair<Boolean,Int> {
+
+            fun validateByMult(component: Component, idx: Int, str:String, list : List<Int> ) : Pair<Boolean,Int> {
+                var currentIdx = idx
+                for (item in list){
+                    var (v,i) = isValidComponent(components[item],currentIdx,str)
+                    if (v)
+                        currentIdx = i
+                    else
+                    return false to currentIdx
+                }
+                return (if (component.id!=0) true else (currentIdx == str.length)) to currentIdx
+            }
+
+            if (component is Terminal){
+                if (idx >= str.length)
+                    return false to idx
+
+                return (str[idx] == component.value) to idx + 1
+            }
+            else{
+                val compRef = component as Reference
+
+                for (list in compRef.pairs){
+                    val (v,i) = validateByMult(component,idx,str,list)
+                    if (v)
+                        return true to i
+                }
+
+                return false to idx
             }
         }
 
         val component = getComponent(0)
 
-        return strings.asSequence().map { isValidComponent(component,0,it).first }.filter { it }.count()
+        return strings.asSequence().map { isValidComponent(components[0],0,it).first }.filter { it }.count()
     }
 
-    private fun isValidComponent(component: Component, idx: Int, str:String ) : Pair<Boolean,Int> {
-
-        if (component is Terminal){
-            if (idx >= str.length)
-                return false to idx
-
-            return (str[idx] == component.value) to idx + 1
-        }
-        else{
-            val compRef = component as Reference
-            for (pair in compRef.pairs){
-
-                var (v,i) = isValidComponent(pair.first,idx,str)
-                if (v) {
-                    if (pair.second != null) {
-
-                        val (n, m) = isValidComponent(pair.second!!, i, str)
-                        if (n)
-                            return (if (component.id!=0) true else (m == str.length)) to m
-                    }
-                    else
-                        return (if (component.id!=0) true else (i == str.length)) to i
-                }
-            }
-
-            return false to idx
-        }
+    fun getResult() : Int {
+        return calc(false)
     }
-
-
-
 
     fun getResultAdvanced() : Int {
-        return 0
+        //return 0
+        return calc(true)
     }
 }
