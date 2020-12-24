@@ -61,15 +61,19 @@ fun main(args : Array<String>) {
     //println(Day19.getResult())
     //println(Day19.getResultAdvanced())
 
-    //println(Day20.getResult())
+    println(Day20.getResult())
     //println(Day20.getResultAdvanced())
 
     //println(Day21.getResult())
     //println(Day21.getResultAdvanced())
 
-    val t = System.currentTimeMillis()
-    println(Day22.getResult())
-    println(Day22.getResultAdvanced())
-    println(System.currentTimeMillis()-t)
+    //println(Day22.getResult())
+    //println(Day22.getResultAdvanced())
+
+    //println(Day23.getResult())
+    //println(Day23.getResultAdvanced())
+
+    //println(Day24.getResult())
+    //println(Day24.getResultAdvanced())
 }
 

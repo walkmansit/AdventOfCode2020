@@ -435,6 +435,12 @@ object Day24 {
         swneenwseweseeenwweseseeesenwnwse
     """.trimIndent()
 
+    private val monster = """
+        1                  # 1
+        1#    ##    ##    ###1
+        1 #  #  #  #  #  #   1
+    """.trimIndent()
+
     class Floor {
 
         private val deltaForSideMap = mapOf(
