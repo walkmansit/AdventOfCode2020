@@ -446,19 +446,7 @@ object Day24 {
                 "ne" to Pair(1,-1)
         )
 
-        class Tile(val coords:Pair<Int,Int>){
-
-            //private var isWhite = true
-
-            /*fun inverse() {
-                isWhite = !isWhite
-            }
-
-            fun isWhite() = isWhite*/
-
-        }
-
-        private var tilesMap:MutableMap<Pair<Int,Int>,Tile> = mutableMapOf()
+        private var tilesSet:MutableSet<Pair<Int,Int>> = mutableSetOf()
 
         fun addRoute(route: String) {
 
@@ -489,11 +477,11 @@ object Day24 {
                 //current = tile.coords
             }
 
-            if (!tilesMap.containsKey(current)){
-                tilesMap[current] = Tile(current)
+            if (!tilesSet.contains(current)){
+                tilesSet.add(current)
             }
             else
-                tilesMap.remove(current)
+                tilesSet.remove(current)
         }
 
         fun turnOneDay(){
@@ -504,7 +492,7 @@ object Day24 {
 
                 for (direction in deltaForSideMap.values){
                     val candidate = current.first + direction.first to current.second + direction.second
-                    if (tilesMap.containsKey(candidate) )
+                    if (tilesSet.contains(candidate))
                         sum++
                 }
 
@@ -513,14 +501,14 @@ object Day24 {
 
             val blackCountForWhiteTile : MutableMap<Pair<Int,Int>,Int> = mutableMapOf()
 
-            val buffer:MutableMap<Pair<Int,Int>,Tile> = mutableMapOf()
+            val buffer:MutableSet<Pair<Int,Int>> = mutableSetOf()
 
-            for (blackTile in tilesMap.values ){
+            for (blackTile in tilesSet ){
 
                 for (direction in deltaForSideMap.values){
-                    val candidate = blackTile.coords.first + direction.first to blackTile.coords.second + direction.second
+                    val candidate = blackTile.first + direction.first to blackTile.second + direction.second
 
-                    if (!tilesMap.containsKey(candidate) ) {
+                    if (!tilesSet.contains(candidate) ) {
 
                         if (!blackCountForWhiteTile.containsKey(candidate))
                             blackCountForWhiteTile[candidate] = 1
@@ -529,25 +517,25 @@ object Day24 {
                     }
                 }
 
-                val blackNeighbors = countBlackNeighbors(blackTile.coords)
+                val blackNeighbors = countBlackNeighbors(blackTile)
 
                 if (blackNeighbors == 1 || blackNeighbors == 2){
-                    buffer[blackTile.coords] = Tile(blackTile.coords)
+                    buffer.add(blackTile)
                 }
 
             }
 
             for (whiteForTurn in blackCountForWhiteTile.filterValues { it == 2 }){
-                buffer[whiteForTurn.key] = Tile(whiteForTurn.key)
+                buffer.add(whiteForTurn.key)
             }
 
-            tilesMap = buffer
+            tilesSet = buffer
 
         }
 
 
         fun countBlackTiles() : Int {
-            return tilesMap.values.count()
+            return tilesSet.count()
         }
 
     }
