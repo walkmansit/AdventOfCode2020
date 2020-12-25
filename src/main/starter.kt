@@ -61,7 +61,7 @@ fun main(args : Array<String>) {
     //println(Day19.getResult())
     //println(Day19.getResultAdvanced())
 
-    println(Day20.getResult())
+    //println(Day20.getResult())
     //println(Day20.getResultAdvanced())
 
     //println(Day21.getResult())
@@ -75,5 +75,8 @@ fun main(args : Array<String>) {
 
     //println(Day24.getResult())
     //println(Day24.getResultAdvanced())
+
+    println(Day25.getResult())
+    //println(Day25.getResultAdvanced())
 }
 
