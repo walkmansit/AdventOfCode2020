@@ -2,13 +2,9 @@ package github.walkmansit.aoc2020
 
 import java.util.*
 
-object Day22 {
+class Day22(val input:String) : DayAoc<Int,Int> {
 
-    private val deck1 = listOf(4,14,5,49,3,48,41,39,18,15,46,23,32,16,19,27,47,17,29,26,33,6,10,38,45)
-
-    private val deck2 = listOf(1,24, 7,44,20,40,42,50,37,21,43, 9,12, 8,34,13,28,36,25,35,22, 2,11,30,31)
-
-    class Game(private val deckA:List<Int>, private val deckB:List<Int>){
+    class Game private  constructor (private val deckA:Collection<Int>, private val deckB:Collection<Int>){
 
 
         fun getScore() : Int {
@@ -51,9 +47,7 @@ object Day22 {
             return result
         }
 
-                private fun isFirstWin(first:Deque<Int>, second:Deque<Int>, calScore : Boolean = false) : Pair<Boolean,Int> {
-
-            val cacheKey = "${first.joinToString(",")} ${second.joinToString(",")}"
+        private fun isFirstWin(first:Deque<Int>, second:Deque<Int>, calScore : Boolean = false) : Pair<Boolean,Int> {
 
             val cache : MutableSet<String> = mutableSetOf()
 
@@ -101,13 +95,26 @@ object Day22 {
 
         }
 
+        companion object {
+
+            fun fromInput(input:String) : Game {
+
+                val parts = input.split("\n\n")
+
+                val deck1 = parts[0].substring(10,parts[0].length).split("\n").map { it.toInt() }
+                val deck2 = parts[1].substring(10,parts[1].length).split("\n").map { it.toInt() }
+                return Game(deck1,deck2)
+            }
+
+        }
+
     }
 
-    fun getResult() : Int {
-        return Game(deck1, deck2).getScore()
+    override fun getResultPartOne(): Int {
+        return Game.fromInput(input).getScore()
     }
 
-    fun getResultAdvanced() : Int {
-        return Game(deck1, deck2).getScoreRecurs()
+    override fun getResultPartTwo(): Int {
+        return Game.fromInput(input).getScoreRecurs()
     }
 }

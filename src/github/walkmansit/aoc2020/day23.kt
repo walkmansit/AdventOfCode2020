@@ -2,7 +2,7 @@ package github.walkmansit.aoc2020
 
 import java.lang.StringBuilder
 
-object Day23 {
+class Day23(val input: String) : DayAoc<String,Long> {
 
     private class Game(input:String, extra : IntRange = 0..1) {
 
@@ -56,10 +56,10 @@ object Day23 {
 
             val cutSet = mutableSetOf<Int>()
 
-            var cutStart = current!!.right!!
+            val cutStart = current!!.right!!
             cutSet.add(cutStart.value)
             cutSet.add(cutStart.right!!.value)
-            var cutEnd = cutStart.right!!.right!!
+            val cutEnd = cutStart.right!!.right!!
             cutSet.add(cutEnd.value)
 
             cutEnd.right!!.left = current
@@ -118,14 +118,14 @@ object Day23 {
 
     }
 
-    fun getResult() : String {
-        val game = Game("315679824")
+    override fun getResultPartOne(): String {
+        val game = Game(input)
         repeat(100){ game.turn() }
         return game.getNextTo(1)
     }
 
-    fun getResultAdvanced() : Long {
-        val game = Game("315679824",10..1000000)
+    override fun getResultPartTwo(): Long {
+        val game = Game(input,10..1000000)
         repeat(10000000){ game.turn() }
         return game.multNextToOne()
     }

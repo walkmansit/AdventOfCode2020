@@ -2,17 +2,7 @@ package github.walkmansit.aoc2020
 
 import kotlin.math.ceil
 
-object Day13 {
-
-    private val testInput = """
-        939
-        67,x,7,59,61
-    """.trimIndent()
-
-    private val input = """
-        1001796
-        37,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,41,x,x,x,x,x,x,x,x,x,457,x,x,x,x,x,x,x,x,x,x,x,x,13,17,x,x,x,x,x,x,x,x,23,x,x,x,x,x,29,x,431,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,19
-    """.trimIndent()
+class Day13(val input:List<String>) : DayAoc<Int,Long> {
 
     private class BusSchedule (val earliestTime : Int , val busTs : Array<Int>) {
 
@@ -160,18 +150,17 @@ object Day13 {
 
 
         companion object {
-            fun fromInput(inp : String) : BusSchedule {
-                val lines = inp.lines()
+            fun fromInput(lines : List<String>) : BusSchedule {
                 return BusSchedule(lines[0].toInt(),lines[1].split(",").map { i -> if (i == "x") -1 else i.toInt() }.toTypedArray())
             }
         }
     }
 
-    fun getResult() : Int {
+    override fun getResultPartOne(): Int {
         return BusSchedule.fromInput(input).findEarliest()
     }
 
-    fun getResultAdvanced() : Long {
+    override fun getResultPartTwo(): Long {
         return BusSchedule.fromInput(input).findWithChineeseTheoreme()
     }
 

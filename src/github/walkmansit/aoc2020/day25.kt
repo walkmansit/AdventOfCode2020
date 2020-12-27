@@ -1,10 +1,8 @@
 package github.walkmansit.aoc2020
 
-object Day25 {
+class Day25(val input:List<String>) : DayAoc<Long,Int> {
 
-    private const val base = 20201227
-
-    fun transform(loopSize:Int,subject:Long) : Long {
+    private fun transform(loopSize:Int, subject:Long) : Long {
 
         var current = 1L
 
@@ -31,11 +29,9 @@ object Day25 {
         return loop
     }
 
-
-    fun getResult() : Long {
-
-        val cardPK = 1717001
-        val doorPK = 523731
+    override fun getResultPartOne(): Long {
+        val cardPK = input[0].toInt()
+        val doorPK = input[1].toInt()
 
         val cardLoop = calculateLoop(cardPK.toLong())
         val doorLoop = calculateLoop(doorPK.toLong())
@@ -46,7 +42,11 @@ object Day25 {
         return cardEncrypt
     }
 
-    fun getResultAdvanced() : Long {
-        return 0
+    override fun getResultPartTwo(): Int {
+        return -1
+    }
+
+    companion object {
+        private const val base = 20201227
     }
 }

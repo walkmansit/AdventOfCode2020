@@ -1,21 +1,8 @@
 package github.walkmansit.aoc2020
 
-object Day17 {
+class Day17(val input:List<String>) : DayAoc<Int,Int> {
 
-    private val input = """
-        #.......
-        .#..#..#
-        ....#.#.
-        .##..#.#
-        #######.
-        #...####
-        ###.##..
-        .##.#.#.
-    """.trimIndent()
-
-    private class Simulation(val inp : String, val turns : Int) {
-
-
+    private class Simulation(val inpLines : List<String>, val turns : Int) {
 
         private fun increaseRange(range:IntRange) : IntRange {
             return range.first - 1..range.last + 1
@@ -33,7 +20,6 @@ object Day17 {
 
             fun initGreed() : Array<Array<Array<Boolean>>> {
 
-                val inpLines = inp.split("\n")
                 val offset = turns+1
 
                 height = inpLines.size + 2*offset
@@ -140,7 +126,6 @@ object Day17 {
 
             fun initGreed() : Array<Array<Array<Array<Boolean>>>> {
 
-                val inpLines = inp.split("\n")
                 val offset = turns+1
 
                 height = inpLines.size + 2*offset
@@ -241,12 +226,11 @@ object Day17 {
         }
     }
 
-
-    fun getResult() : Int {
+    override fun getResultPartOne(): Int {
         return Simulation(input,6).simulate3DAndGetSum()
     }
 
-    fun getResultAdvanced() : Int {
+    override fun getResultPartTwo(): Int {
         return Simulation(input,6).simulate4DAndGetSum()
     }
 

@@ -1,10 +1,10 @@
 package github.walkmansit.aoc2020
 
-object Day15 {
+class Day15(val input:String) : DayAoc<Int,Int> {
 
-    private val input = arrayOf(0,13,1,8,6,15)
+    private val inputArray = input.split(',').map { it.toInt() }
 
-    class NumberGame(private val initNums: Array<Int>){
+    class NumberGame(private val initNums: Collection<Int>){
 
         fun play(targetTurn:Int) : Int {
 
@@ -42,13 +42,12 @@ object Day15 {
 
     }
 
-    fun getResult() : Int {
-        return NumberGame(input).play(2020)
+    override fun getResultPartOne(): Int {
+        return NumberGame(inputArray).play(2020)
     }
 
-    fun getResultAdvanced() : Int {
-
-        return NumberGame(input).play(30000000)
+    override fun getResultPartTwo(): Int {
+        return NumberGame(inputArray).play(30000000)
     }
 
 }
