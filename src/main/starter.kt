@@ -1,7 +1,6 @@
 package main
 
-import main.days.*
-
+import github.walkmansit.aoc2020.*
 
 fun main(args : Array<String>) {
     //println(Day1.getResult())
@@ -76,7 +75,7 @@ fun main(args : Array<String>) {
     //println(Day24.getResult())
     //println(Day24.getResultAdvanced())
 
-    println(Day25.getResult())
+    //println(Day25.getResult())
     //println(Day25.getResultAdvanced())
 }
 
